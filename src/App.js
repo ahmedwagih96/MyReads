@@ -19,31 +19,13 @@ const BooksApp = () => {
   }, []);
 
 
-  //when the user updates a book from the homepage
-  function handleShelf(selectedBook, shelf){
-    // mapping through the books state to check which book is changed
-    setBooks((prevState)=>{
-      let newArray = prevState.map(book =>{
-        if(book.id === selectedBook.id ){
-          book.shelf = shelf;
-        }
-        return book
-      })
-      return newArray
-    })
-    //updating the api
-    BooksAPI.update(selectedBook.id, shelf)
-  }
-
-  //Function To Add Book from the search page 
-  function addBook (book, shelf){
-    //adding a shelf property to the book
+  //when the user updates shelf from main page & from search page 
+  const updateShelf = (book, shelf) => {
     book.shelf = shelf;
-    //updating the api
-    BooksAPI.update(book.id, shelf)
-    //update the books state so the homepage rerenders 
-    setBooks(prevBooks => [...prevBooks, book])
-  }
+    BooksAPI.update(book, shelf).then(() => {
+    setBooks([...books.filter((b) => b.id !== book.id), book]);
+    });
+    };
   
   //Function to call api when user search for book
   function handleSearch (value){
@@ -77,19 +59,19 @@ const BooksApp = () => {
                 <Shelf 
                   shelf = {currentlyReading} 
                   title = 'Currently Reading'
-                  handleShelf = {handleShelf}
+                  updateShelf = {updateShelf}
                   homepageBooks = {books}
                 />
                 <Shelf 
                   shelf = {wantToRead} 
                   title = 'Want To Read'
-                  handleShelf = {handleShelf}
+                  updateShelf = {updateShelf}
                   homepageBooks = {books}
                 />
                 <Shelf 
                   shelf = {read} 
                   title = 'Read'
-                  handleShelf = {handleShelf}
+                  updateShelf = {updateShelf}
                   homepageBooks = {books}
                 />
               </div>
@@ -105,7 +87,7 @@ const BooksApp = () => {
             render = {()=>(
               <Search 
               handleSearch = {handleSearch} 
-              addBook={addBook}
+              updateShelf={updateShelf}
               searchResult = {query}
               homepageBooks = {books}
               emptySearch = {emptySearch}

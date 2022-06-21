@@ -1,10 +1,10 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 import Book from './Book';
-const Search = ({handleSearch, searchResult, addBook, homepageBooks, emptySearch}) => {
+const Search = ({handleSearch, searchResult, updateShelf, homepageBooks, emptySearch}) => {
   
   
-  const books = searchResult.map(book => <Book book = {book} key = {book.id} handleBook = {addBook} homepageBooks= {homepageBooks}/>)
+  const books = searchResult.map(book => <Book book = {book} key = {book.id} updateShelf = {updateShelf} homepageBooks= {homepageBooks}/>)
     return ( 
         <div className="search-books">
         <div className="search-books-bar">

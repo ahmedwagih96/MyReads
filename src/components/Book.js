@@ -1,5 +1,5 @@
 import React from 'react'
-const Book = ({book, handleBook, homepageBooks}) => {
+const Book = ({book, updateShelf, homepageBooks}) => {
   const image = book.imageLinks && book.imageLinks.thumbnail
   ? book.imageLinks.thumbnail
   : "";
@@ -19,7 +19,7 @@ const Book = ({book, handleBook, homepageBooks}) => {
           <div className="book-top">
             <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${image})`}}></div>
             <div className="book-shelf-changer">
-              <select onChange = {(e)=> handleBook(book, e.target.value)} value={shelf}>
+              <select onChange = {(e)=> updateShelf(book, e.target.value)} value={shelf}>
                 <option value="move" disabled>Move to...</option>
                 <option value="currentlyReading">Currently Reading</option>
                 <option value="wantToRead">Want to Read</option>
